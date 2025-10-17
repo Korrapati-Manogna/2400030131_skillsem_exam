@@ -20,7 +20,7 @@ function App() {
   const month = today.getMonth();
   const days = new Date(year, month + 1, 0).getDate();
 
-  const format = (d) =>
+  const formatDate = (d) =>
     `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(
       2,
       "0"
@@ -31,28 +31,31 @@ function App() {
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
+        display: "flex", // added flex
+        flexDirection: "column", // vertical stacking
+        alignItems: "center", // horizontal center
+        justifyContent: "center", // vertical center
+        width: "95vw", // full viewport width
+        height: "95vh", // full viewport height
+        margin: "0 auto",
         textAlign: "center",
         fontFamily: "sans-serif",
-        width: "100vw",
-        margin: "auto",
-        padding: "20px",
+        padding: 20,
       }}
     >
-      <h3>
+      <h2>
         {today.toLocaleString("default", { month: "long" })} {year}
-      </h3>
+      </h2>
+
       <div
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(7, 1fr)",
-          gap: "5px",
+          gap: 5,
         }}
       >
         {[...Array(days)].map((_, i) => {
-          const d = format(i + 1);
+          const d = formatDate(i + 1);
           const hasEvent = events.some((e) => e.date === d);
           return (
             <div
@@ -65,6 +68,7 @@ function App() {
                 background:
                   selected === d ? "black" : hasEvent ? "yellow" : "white",
                 color: selected === d ? "white" : "black",
+                border: "1px solid #ccc",
               }}
             >
               {i + 1}
@@ -72,20 +76,23 @@ function App() {
           );
         })}
       </div>
+
       {selected && (
-        <div style={{ marginTop: 15 }}>
-          <h4>Events on : {selected}</h4>
-          {selEvents.length
-            ? selEvents.map((e, i) => (
-                <div key={i}>
-                  <b>{e.title}:</b> {e.description}
-                </div>
-              ))
-            : "No events"}
+        <div style={{ marginTop: 15, textAlign: "left" }}>
+          <center>
+            <h4>Events on : {selected}</h4>
+            {selEvents.length
+              ? selEvents.map((e, i) => (
+                  <div key={i}>
+                    <b>{e.title} :</b> {e.description}
+                  </div>
+                ))
+              : "No events"}
+          </center>
         </div>
       )}
-         
     </div>
   );
 }
+
 export default App;
